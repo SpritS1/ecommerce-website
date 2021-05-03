@@ -1,0 +1,40 @@
+.product-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.product-card:hover {
+    transform: scale(1.05);
+    transition: .2s;
+}
+.product-card:not(:hover) {
+    transition: .2s;
+}
+
+.product-name {
+    margin-bottom: .5rem;
+}
+    .product-name b {
+        font-size: 1.5rem;
+    }
+
+.price {
+    font-size: .9rem;
+    margin-bottom: 1rem;
+}
+
+.product-buttons {
+    width: 75%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+/* 
+@media screen and (min-width: 600px) {
+
+    .product-card {
+        flex: 0 0 45%;
+    }
+
+} */

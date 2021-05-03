@@ -1,0 +1,53 @@
+doctype html
+html
+  include partials/head.pug
+  link(rel='stylesheet' type='text/css' href='/styles/products.css')
+
+
+  body
+    include partials/navbar.pug
+    .content-wrapper
+      .main
+        if !products.length
+          h1  Could not load the products 
+        else if products.length 
+          h1  Our products
+          section.product-cards
+              each product in products
+                .product-card
+                  img(src=`${product.imageUrl[0]}`)
+                  p.product-name 
+                    b #{product.name}
+                  p.product-name #{product.subcategory.toUpperCase()}
+                  p.price #{product.price.value} #{product.price.currency}
+                  .product-buttons
+                    button.btn-green Buy now
+                    button.btn-dark Add to cart
+          //- .product-card
+          //-   img(src='images/floor-stand-m.jpeg')
+          //-   p.product-name 
+          //-     b WOODIE
+          //-   p.product-name WOODEN BOWL STAND
+          //-   p.price 89,99 PLN
+          //-   .product-buttons
+          //-     button.btn-green Buy now
+          //-     button.btn-dark Add to cart
+          //- .product-card
+          //-   img(src='images/wall-stand-m.jpeg')
+          //-   p.product-name 
+          //-     b MARVIN
+          //-   p.product-name WALL MOUNTED FEEDER
+          //-   p.price 69,99 PLN
+          //-   .product-buttons
+          //-     button.btn-green Buy now
+          //-     button.btn-dark Add to cart
+          //- .product-card
+          //-   img(src='images/wall-stand-m.jpeg')
+          //-   p.product-name 
+          //-     b MARVIN
+          //-   p.product-name WALL MOUNTED FEEDER
+          //-   p.price 69,99 PLN
+          //-   .product-buttons
+          //-     button.btn-green Buy now
+          //-     button.btn-dark Add to cart
+    include partials/footer.pug

@@ -1,0 +1,28 @@
+doctype html
+html
+  include ../partials/head.pug
+  link(rel='stylesheet' type='text/css' href='/styles/authentication.css')
+  script(defer src='/javascripts/authorization.js')
+
+
+  body
+    include ../partials/navbar.pug
+
+    .content-wrapper 
+        .main 
+            .auth-form
+                h1 Account login
+                form.login
+                    label(for='mail') Email
+                    input(type='mail' id='mail' name='mail')
+                    span.warning(data-warning-type='mail')
+                    
+                    label(for='password') Password
+                    input(type='password' id='password' name='password')
+                    span.warning(data-warning-type='password')
+                    
+                    .checkbox
+                        input(type='checkbox' id='remember-me' name='remember-me')
+                        label(for='remember-me') Remember me
+                    button.btn-submit Submit
+    include ../partials/footer.pug

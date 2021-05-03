@@ -1,0 +1,57 @@
+.main {
+    display: flex;
+    justify-content: center;
+}
+
+.auth-form {
+    flex: 0 1 250px;
+    margin-bottom: 2rem;
+    padding: 2rem 4rem;
+    border-radius: 25px;
+    box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    .auth-form hr {
+        margin-bottom: 1rem;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        margin: .5rem 0;
+    }
+
+    input {
+        padding: .5rem;
+        border-radius: 10px;
+        border: solid .5px;
+        background-color: #eee;
+    }
+
+    input:focus {
+        outline: none;
+    }
+
+    form span.warning {      
+        color: rgb(233, 20, 20);
+        margin: .25rem;
+    }
+
+    hr {
+        margin: 1rem 0;
+    }
+
+    .checkbox input {
+        margin-right: .5rem;
+    }
+
+    button.btn-submit {
+        margin-top: 2rem;
+    }

@@ -1,0 +1,99 @@
+doctype html
+html
+  include partials/head.pug
+
+  body
+    include partials/navbar.pug
+    .content-wrapper
+      .main
+        h1  Our products 
+        section.product-cards
+          .product-card
+            img(src='images/wall-stand-m.jpeg')
+            h4 Wall bowl stands
+            button.btn-dark-outline  See more 
+          .product-card
+            img(src='images/floor-stand-m.jpeg')
+            h4 Floor bowl stands
+            button.btn-dark-outline  See more 
+          .product-card
+            img(src='images/key_holder.jpg')
+            h4 Other furnitures
+            button.btn-dark-outline  See more 
+        section#about-us.about-us
+          h1  About us 
+          p
+            b Lorem ipsum dolor sit amet,
+            |  consectetur adipiscing elit. Ut a turpis euismod, lobortis purus vitae, ultrices magna. Fermentum id tellus a, euismod mattis lectus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Cras pellentesque, augue vitae commodo facilisis, neque augue malesuada eros, ac maximus arcu magna in erat. In hac habitasse platea dictumst. Mauris consectetur maximus ipsum a lobortis. Duis maximus nibh libero, a vehicula neque sagittis quis. Maecenas quis ultricies odio, dictum maximus dolor. Aliquam erat volutpat. Sed eu pulvinar arcu. Nullam condimentum eros nec congue sollicitudin...
+
+          br 
+
+          p
+            b It is a long established fact 
+            | that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+        section.customer-reviews
+          h1 Customer reviews 
+          .reviews-wrapper
+            .review
+              .rating-stars
+                i.fas.fa-star
+                i.fas.fa-star
+                i.fas.fa-star
+                i.fas.fa-star
+                i.fas.fa-star
+              p Fermentum id tellus a, euismod mattis lectus. Ut a turpis euismod!
+              span  Anna Kowalska 
+              span  4 days ago
+            .review
+              .rating-stars
+                i.fas.fa-star
+                i.fas.fa-star
+                i.fas.fa-star
+                i.fas.fa-star
+                i.fas.fa-star
+              p Id tellus mattis lectus. Ut a turpis euismod!
+              span  Maciej Ptak 
+              span  5 days ago
+            .review
+              .rating-stars
+                i.fas.fa-star
+                i.fas.fa-star
+                i.fas.fa-star
+                i.fas.fa-star
+                i.fas.fa-star
+              p Nullam condimentum eros nec congue sollicitudin!!!
+              span  Miriam Palmer 
+              span  6 days ago
+            .review
+              .rating-stars
+                i.fas.fa-star
+                i.fas.fa-star
+                i.fas.fa-star
+                i.fas.fa-star
+                i.far.fa-star
+              p Tellus a, euismod mattis lectus. Ut a turpis euismod!
+              span  Paul Left 
+              span  20 days ago
+            .review
+              .rating-stars
+                i.fas.fa-star
+                i.fas.fa-star
+                i.fas.fa-star
+                i.fas.fa-star
+                i.fas.fa-star
+              p Fermentum id tellus a, euismod mattis lectus. Ut euismod!
+              span  Panam Disney 
+              span  3 days ago
+            .review
+              .rating-stars
+                i.fas.fa-star
+                i.fas.fa-star
+                i.fas.fa-star
+                i.fas.fa-star
+                i.far.fa-star
+              p Fermentum id euismod mattis lectus. Ut a turpis euismod!
+              span  Jackson Walter 
+              span  12 days ago
+        section.location-map
+          h1 Where to find us?          
+    include partials/footer.pug

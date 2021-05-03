@@ -1,0 +1,33 @@
+nav
+      .top-menu
+        a.brand(href='/')  Pet&amp;I 
+        ul
+          if client
+            p(style='color: white;') #{client.firstname.charAt(0).toUpperCase() + client.firstname.slice(1)}
+            li.account
+              a(href='/account')
+                i.far.fa-user-circle.fa-2x(style='color:white;')
+          li
+            a(href='/cart')
+              i.fa.fa-shopping-cart.fa-2x.cart(style='color: white;')
+          li.menu-bars
+            i.fas.fa-bars.fa-2x.menu-bars
+      .dropdown-menu(data-display='none')
+        ul.center
+          li
+            a(href='/') Home
+          li
+            a(href='/products') Products
+          li
+            a(href='/contact') Contact
+          li
+            a(href='/about-us') About us
+          if !client 
+            li 
+              a(href='/account/login') Login
+            li 
+              //- i.fas.fa-sign-in-alt.fa-lg
+              a(href='/account/register') Sign up
+          if client 
+            li 
+              a(href='/account/logout') Logout

@@ -1,0 +1,75 @@
+.main {
+    margin: 0;
+}
+
+section.cart {
+    display: flex;
+    flex-direction: column;    
+}
+
+    .cart-items {
+        background-color: white;
+        box-shadow: var(--box-shadow);
+    }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: solid .5px rgb(190, 190, 190)
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+            .cart-item img {
+                max-width: 100px;
+                border-radius: 15px;
+            }
+
+            .cart-item .item-info {
+                flex: 0 0 100px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
+            .cart-item .right {
+                display: flex;
+                flex-direction: column-reverse;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .cart-item .change-amount {
+                color: var(--background-color-dark);
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+            }
+
+                .cart-item .change-amount i {
+                    color: var(--background-color-dark);
+                    padding: .25rem;
+                    cursor: pointer;
+                }
+
+
+            .cart-item i.remove-item {
+                color: rgb(200, 0, 0);
+            }
+    section.cart .order-summary {
+        margin: 2rem 0;
+        background-color: white;
+        box-shadow: var(--box-shadow);
+        padding: 1rem;
+    }
+        .subtotal, .shipping, .total {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: .25rem 0;
+        }
+
+

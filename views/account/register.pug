@@ -1,0 +1,43 @@
+doctype html
+html
+  include ../partials/head.pug
+  link(rel='stylesheet' type='text/css' href='/styles/authentication.css')
+  script(defer src='/javascripts/authorization.js')
+
+
+  body
+    include ../partials/navbar.pug
+
+    .content-wrapper 
+        .main 
+            .auth-form
+                h1 Sign up
+                form.register
+                    label(for='mail') Email
+                    input(type='mail' id='mail' name='mail')
+                    span.warning(data-warning-type='mail')
+                    
+                    label(for='password') Password
+                    input(type='password' id='password' name='password')
+                    span.warning(data-warning-type='password')
+                    
+                    hr 
+
+                    label(for='firstname') First name
+                    input(type='text' id='firstname' name='firtname')
+                    span.warning(data-warning-type='firstname')
+
+                    label(for='surname') Surname
+                    input(type='text' id='surname' name='surname')
+                    span.warning(data-warning-type='surname')
+
+                    label(for='phone') Phone
+                    input(type='text' id='phone' name='phone')
+                    span.warning(data-warning-type='phone')
+
+                    label(for='address') Address
+                    input(type='text' id='address' name='address')
+                    span.warning(data-warning-type='address')
+
+                    button.btn-submit Submit
+    include ../partials/footer.pug
