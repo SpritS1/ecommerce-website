@@ -1,10 +1,11 @@
 const express = require('express');
 const cartController = require('../controlers/cartController');
+const { requireAuth, checkClient } = require('../middleware/requireAuth');
 
 const router = express.Router();
 
-router.get('/cart', cartController.cart_get);
+router.get('/cart', requireAuth, checkClient, cartController.cart_get);
 
-// router.post('/cart', cartController.cart_post);
+router.post('/cart', requireAuth, checkClient, cartController.cart_post);
 
 module.exports = router;

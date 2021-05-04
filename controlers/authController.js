@@ -1,4 +1,5 @@
 const Client = require('../models/Client');
+const Cart = require('../models/Cart');
 const jwt = require('jsonwebtoken');
 
 // Create JWT tokens
@@ -66,7 +67,8 @@ module.exports.register_post = async (req, res) => {
     const { email, password, firstname, surname, phone, city } = req.body; 
 
     try {
-        const client = await Client.create({ email, password, firstname, surname, phone, city });
+        const cart = await Cart.create({}); // Tworzenie koszyka klienta (pusty na poczatku)
+        const client = await Client.create({ email, password, firstname, surname, phone, city, shoppingCartId: cart._id });
         
         const token = createToken(client._id);
         
