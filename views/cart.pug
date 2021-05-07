@@ -9,19 +9,19 @@ html
     .content-wrapper
       .main
         section.cart 
-            if cart.items.length === 0
+            if cart.cartItems.length === 0
                 h1 Your cart is empty
 
-            else if cart.items.length > 0
+            else if cart.cartItems.length > 0
                 h1 Your cart
                 .cart-items 
-                    each item in cart.items
+                    each item in cart.cartItems
                         .cart-item
-                            img(src='/images/floor-stand-m.jpeg' alt='product image')
+                            img(src=`${item.product.imageUrl}` alt='product image')
                             .item-info 
-                                p.title Title TitleTitle
+                                p.title #{item.product.name}
                                 p.price Price: 
-                                    b #{item.price}
+                                    b #{item.product.price.value}
                             .right
                                 .change-amount
                                     i.far.fa-arrow-alt-circle-left.fa-lg
@@ -29,6 +29,19 @@ html
                                         b #{item.quantity}
                                     i.far.fa-arrow-alt-circle-right.fa-lg
                                 i.fas.fa-trash-alt.fa-lg.remove-item
+                .order-summary
+                    .subtotal 
+                        p.subtotal Subtotal: 
+                        b #{cart.subTotal} PLN
+                    .shipping
+                        p.shipping Shipping: 
+                        b 20 PLN
+                    hr
+                    .total
+                        p.total Total: 
+                        b 220 PLN
+                button.btn-submit Checkout
+
                 //- .cart-items 
                 //-     .cart-item
                 //-         img(src='/images/floor-stand-m.jpeg' alt='product image')

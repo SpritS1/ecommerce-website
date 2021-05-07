@@ -22,7 +22,7 @@ html
                   p.price #{product.price.value} #{product.price.currency}
                   .product-buttons
                     button.btn-green Buy now
-                    button.btn-dark Add to cart
+                    button.btn-dark(data-product-id=`${product._id}`) Add to cart
           //- .product-card
           //-   img(src='images/floor-stand-m.jpeg')
           //-   p.product-name 

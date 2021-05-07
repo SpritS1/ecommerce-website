@@ -72,7 +72,7 @@ module.exports.register_post = async (req, res) => {
         
         const token = createToken(client._id);
         
-        res.cookie('authToken', token, { maxAge: tokenMaxAge * 1000, httpOnly: true });
+        res.cookie('authToken', token, { maxAge: tokenMaxAge * 7000, httpOnly: true });
         res.status(201).json({ client: client._id });
     } catch (error){
         const errors = handleError(error);
