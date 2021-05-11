@@ -2,6 +2,7 @@ doctype html
 html
   include partials/head.pug
   link(rel='stylesheet' type='text/css' href='/styles/products.css')
+  script(defer src='/javascripts/products.js')
 
 
   body
@@ -21,8 +22,8 @@ html
                   p.product-name #{product.subcategory.toUpperCase()}
                   p.price #{product.price.value} #{product.price.currency}
                   .product-buttons
-                    button.btn-green Buy now
-                    button.btn-dark(data-product-id=`${product._id}`) Add to cart
+                    button.btn-green.buy-now Buy now
+                    button.btn-dark.add-to-cart(data-product-id=`${product._id}`) Add to cart
           //- .product-card
           //-   img(src='images/floor-stand-m.jpeg')
           //-   p.product-name 

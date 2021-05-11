@@ -7,6 +7,10 @@ section.cart {
     flex-direction: column;    
 }
 
+    section.cart p {
+        text-align: center;
+    }
+
     .cart-items {
         background-color: white;
         box-shadow: var(--box-shadow);

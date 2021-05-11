@@ -59,6 +59,10 @@ const handleError = (error) => {
     }
 };
 
+const tempCartToCart = () => {
+
+}
+
 module.exports.register_get = (req, res) => {
     res.render('account/register.pug');
 };
@@ -68,8 +72,8 @@ module.exports.register_post = async (req, res) => {
 
     try {
         const cart = await Cart.create({}); // Tworzenie koszyka klienta (pusty na poczatku)
-        const client = await Client.create({ email, password, firstname, surname, phone, city, shoppingCartId: cart._id });
-        
+        const client = await Client.create({ email, password, firstname, surname, phone, city, shoppingCartId: cart._id });  
+
         const token = createToken(client._id);
         
         res.cookie('authToken', token, { maxAge: tokenMaxAge * 7000, httpOnly: true });

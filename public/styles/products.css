@@ -4,13 +4,13 @@
     justify-content: space-around;
 }
 
-.product-card:hover {
+/* .product-card:hover {
     transform: scale(1.05);
     transition: .2s;
 }
 .product-card:not(:hover) {
     transition: .2s;
-}
+} */
 
 .product-name {
     margin-bottom: .5rem;
@@ -30,11 +30,19 @@
     justify-content: space-around;
     align-items: center;
 }
-/* 
+
 @media screen and (min-width: 600px) {
 
-    .product-card {
+    /* .product-card {
         flex: 0 0 45%;
+    } */
+    
+    .product-card:hover {
+        transform: scale(1.05);
+        transition: .2s;
+    }
+    .product-card:not(:hover) {
+        transition: .2s;
     }
 
-} */
+}

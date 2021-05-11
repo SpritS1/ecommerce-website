@@ -19,6 +19,26 @@ const CartSchema = new mongoose.Schema({
         type: Number,
         default: 0
     }
+});
+
+const TempCartSchema = new mongoose.Schema({
+    cartItems: [ItemSchema],
+    subTotal: {
+        type: Number,
+        default: 0
+    },
+    updatedAt: { type: Date, default: Date.now, unique: true,index: { expires: 2 * 24 * 60 * 60 } }
+},
+{
+    timestamps: true,
+    usePushEach: true
+});
+
+TempCartSchema.pre('save', (next) => {
+    this.updatedAt = Date.now();
+    next();
 })
 
-module.exports = mongoose.model('Cart', CartSchema);
+module.exports.Cart = mongoose.model('Cart', CartSchema);
+module.exports.TempCart = mongoose.model('TempCart', TempCartSchema);
+

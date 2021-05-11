@@ -7,7 +7,6 @@ if (loginForm) {
     submit.addEventListener('click', async (e) => {
         e.preventDefault();
 
-        
         const email = loginForm.mail.value;
         const password = loginForm.password.value;
 
