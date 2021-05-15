@@ -23,6 +23,7 @@ if (loginForm) {
                 console.log('login');
                 location.assign('/');
             } else if (data.errors) {
+                console.log(data.errors)
                 warnings.forEach(warning => {
                     if (warning.dataset.warningType === 'mail') {
                         warning.textContent = data.errors.email;

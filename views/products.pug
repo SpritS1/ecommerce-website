@@ -20,7 +20,7 @@ html
                   p.product-name 
                     b #{product.name}
                   p.product-name #{product.subcategory.toUpperCase()}
-                  p.price #{product.price.value} #{product.price.currency}
+                  p.price #{product.price.value.toFixed(2)} #{product.price.currency}
                   .product-buttons
                     button.btn-green.buy-now Buy now
                     button.btn-dark.add-to-cart(data-product-id=`${product._id}`) Add to cart

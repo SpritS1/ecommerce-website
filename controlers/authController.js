@@ -1,5 +1,5 @@
 const Client = require('../models/Client');
-const Cart = require('../models/Cart');
+const { Cart, TempCart } = require('../models/Cart');
 const jwt = require('jsonwebtoken');
 
 // Create JWT tokens
@@ -60,7 +60,7 @@ const handleError = (error) => {
 };
 
 const tempCartToCart = () => {
-
+    
 }
 
 module.exports.register_get = (req, res) => {
@@ -69,10 +69,28 @@ module.exports.register_get = (req, res) => {
 
 module.exports.register_post = async (req, res) => {
     const { email, password, firstname, surname, phone, city } = req.body; 
+    const tempCartId = req.cookies.cartToken;
 
     try {
         const cart = await Cart.create({}); // Tworzenie koszyka klienta (pusty na poczatku)
         const client = await Client.create({ email, password, firstname, surname, phone, city, shoppingCartId: cart._id });  
+
+        if (tempCartId) {
+            const tempCart = await TempCart.findById(tempCartId)
+            cart.subTotal = tempCart.subTotal;
+            cart.cartItems = tempCart.cartItems;
+            console.log(cart.cartItems);
+
+            await cart.save();
+
+            res.cookie('cartToken', '', { 
+                maxAge: 1,
+                httpOnly: true 
+            });
+
+            await TempCart.findByIdAndDelete({ _id: tempCart._id });
+
+        }
 
         const token = createToken(client._id);
         
@@ -80,6 +98,8 @@ module.exports.register_post = async (req, res) => {
         res.status(201).json({ client: client._id });
     } catch (error){
         const errors = handleError(error);
+        console.log(errors);
+
         res.status(400).json({ errors });
     }
 };
@@ -93,13 +113,38 @@ module.exports.login_post = async (req, res) => {
 
     try {
         const client = await Client.login(email, password);
+        const cart = await Cart.findById(client.shoppingCartId);
+        const tempCartId = req.cookies.cartToken;
         const token = createToken(client._id);
+        
+        if (tempCartId) {
+            const tempCart = await TempCart.findById(tempCartId)
+
+            cart.subTotal += tempCart.subTotal;
+
+            for (const cartItem of cart.cartItems) {
+                for (const tempCartItem of tempCart.cartItems) {
+                    if ( cartItem.product.equals(tempCartItem.product) ) {
+                        tempCart.cartItems.splice(tempCart.cartItems.indexOf(tempCartItem), 1);
+                    }
+                }
+            }
+            cart.cartItems = cart.cartItems.concat(tempCart.cartItems);
+
+            await cart.save();
+
+            res.cookie('cartToken', '', { 
+                maxAge: 1,
+                httpOnly: true 
+            });
+
+            await TempCart.findByIdAndDelete({ _id: tempCart._id });
+        }
         
         res.cookie('authToken', token, { maxAge: tokenMaxAge * 1000, httpOnly: true });
         res.status(200).json({ client: client.email});
     } catch (error) {
         const errors = handleError(error);
-        console.log(errors);
         res.status(400).json({errors});
     }
 }

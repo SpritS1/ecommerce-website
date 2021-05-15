@@ -20,83 +20,33 @@ html
                     .cart-items 
                         each item in cart.cartItems
                             .cart-item
-                                img(src=`${item.product.imageUrl[0]}` alt='product image')
-                                .item-info 
-                                    p.title #{item.product.name}
-                                    p.price Price: 
-                                        b #{`${item.product.price.value.toFixed(2)} ${item.product.price.currency}`} 
-                                .right
+                                .item-top
+                                    img(src=`${item.product.imageUrl[0]}` alt='product image')
+                                    .item-info 
+                                        p.title #{item.product.name}
+                                        p.category #{item.product.subcategory.charAt(0).toUpperCase() + item.product.subcategory.slice(1)}
+                                    i.fas.fa-trash-alt.fa-2x.remove-item(data-item-id=`${item._id}`)
+
+                                .item-bottom
                                     .change-amount
-                                        i.far.fa-arrow-alt-circle-left.fa-lg
-                                        p 
-                                            b #{item.quantity}
-                                        i.far.fa-arrow-alt-circle-right.fa-lg
-                                    i.fas.fa-trash-alt.fa-lg.remove-item(data-product-id=`${item._id}`)
+                                        i.far.fa-arrow-alt-circle-left.fa-lg.quality-down(data-product-id=`${item.product._id}`)
+                                        b.item-quantity #{item.quantity}    
+                                        i.far.fa-arrow-alt-circle-right.fa-lg.quality-up(data-product-id=`${item.product._id}`)
+                                    p.price Price: 
+                                        b #{`${item.product.price.value.toFixed(2)} ${item.product.price.currency}`}
                     .order-summary
                         .subtotal 
                             p.subtotal Subtotal: 
-                            b #{cart.subTotal} PLN
+                            b #{cart.subTotal.toFixed(2)} PLN
                         .shipping
                             p.shipping Shipping: 
                             b 20 PLN
                         hr
                         .total
                             p.total Total: 
-                            b 220 PLN
-                    button.btn-submit Checkout
+                            b #{(cart.subTotal + 20).toFixed(2)} PLN
+                    button.btn-green.checkout Checkout
             else if !cart 
                 h1 Failed to load cart
-                //- .cart-items 
-                //-     .cart-item
-                //-         img(src='/images/floor-stand-m.jpeg' alt='product image')
-                //-         .item-info 
-                //-             p.title Title TitleTitle
-                //-             p.price Price: 
-                //-                 b $ 69,99 
-                //-         .right
-                //-             .change-amount
-                //-                 i.far.fa-arrow-alt-circle-left.fa-lg
-                //-                 p 
-                //-                     b 12
-                //-                 i.far.fa-arrow-alt-circle-right.fa-lg
-                //-             i.fas.fa-trash-alt.fa-lg.remove-item
 
-                //-     .cart-item
-                //-         img(src='/images/key_holder.jpg' alt='product image')
-                //-         .item-info 
-                //-             p.title Title TitleTitle 
-                //-             p.price Price: 
-                //-                 b $ 69,99 
-                //-         .right  
-                //-             .change-amount
-                //-                 i.far.fa-arrow-alt-circle-down.fa-lg
-                //-                 p 
-                //-                     b 1
-                //-                 i.far.fa-arrow-alt-circle-up.fa-lg
-                //-             i.fas.fa-trash-alt.fa-lg.remove-item
-                //-     .cart-item
-                //-         img(src='/images/wall-stand-m.jpeg' alt='product image')
-                //-         .item-info 
-                //-             p.title Title TitleTitle
-                //-             p.price Price: 
-                //-                 b $ 69,99 
-                //-         .right 
-                //-             .change-amount
-                //-                 i.fas.fa-arrow-up.fa-lg
-                //-                 p 
-                //-                     b 1
-                //-                 i.fas.fa-arrow-down.fa-lg
-                //-             i.fas.fa-trash-alt.fa-lg.remove-item
-                //- .order-summary
-                //-     .subtotal 
-                //-         p.subtotal Subtotal: 
-                //-         b 200$
-                //-     .shipping
-                //-         p.shipping Shipping: 
-                //-         b 20$
-                //-     hr
-                //-     .total
-                //-         p.total Total: 
-                //-         b 220$
-                //- button.btn-submit Checkout
     include partials/footer.pug

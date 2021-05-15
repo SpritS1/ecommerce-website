@@ -18,51 +18,70 @@ section.cart {
 
         .cart-item {
             display: flex;
+            flex-direction: column;
             justify-content: space-between;
             padding: 1rem;
-            border-bottom: solid .5px rgb(190, 190, 190)
+            border-bottom: solid .5px rgb(190, 190, 190);            
         }
 
         .cart-item:last-child {
             border-bottom: none;
         }
 
-            .cart-item img {
-                max-width: 100px;
+            .item-top {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1rem;
+            }
+
+            .item-top img {
+                max-width: 150px;
                 border-radius: 15px;
             }
 
-            .cart-item .item-info {
-                flex: 0 0 100px;
-                display: flex;
+            /* .item-top .item-info {
+                flex: 1 0 100px;
+                display: flex; 
                 flex-direction: column;
                 justify-content: space-between;
                 flex-wrap: wrap;
-            }
-            .cart-item .right {
+            } */
+            /* .cart-item .right {
                 display: flex;
                 flex-direction: column-reverse;
                 justify-content: space-between;
+                align-items: center;
+            } */
+
+            .item-bottom {
+                display: flex;
+                justify-content: space-around;
                 align-items: center;
             }
 
             .cart-item .change-amount {
                 color: var(--background-color-dark);
                 display: flex;
-                justify-content: space-around;
+                justify-content: space-between;
                 align-items: center;
             }
 
                 .cart-item .change-amount i {
                     color: var(--background-color-dark);
-                    padding: .25rem;
+                    padding: .5rem;
                     cursor: pointer;
+                }
+
+                .cart-item .change-amount b {
+                    padding: .5rem;
                 }
 
 
             .cart-item i.remove-item {
                 color: rgb(200, 0, 0);
             }
+
     section.cart .order-summary {
         margin: 2rem 0;
         background-color: white;
@@ -74,6 +93,11 @@ section.cart {
             align-items: center;
             justify-content: space-between;
             margin: .25rem 0;
+        }
+
+        .checkout {
+            min-width: 300px;
+            align-self: center;
         }
 
 

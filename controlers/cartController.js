@@ -4,6 +4,14 @@ const Product = require('../models/Product');
 const jwt = require('jsonwebtoken');
 
 
+const calcSubtotal = async (productId, quantity) => {
+    const product = await Product.findById(productId);
+    const price = product.price.value * quantity;
+
+    return price;
+}
+
+
 module.exports.cart_get = async (req, res) => {
     const client = res.locals.client;
 
@@ -11,7 +19,7 @@ module.exports.cart_get = async (req, res) => {
         if (client) {
             const cart = await Cart.findOne(client.shoppingCartId);
 
-            await cart.populate('cartItems.product', 'name price imageUrl').execPopulate(); // Zostawic
+            await cart.populate('cartItems.product', 'name subcategory price imageUrl').execPopulate(); // Zostawic
             res.render('cart', { cart });        
 
         } else if (!client) {
@@ -20,7 +28,7 @@ module.exports.cart_get = async (req, res) => {
                 const cart = await TempCart.findById(cartId);
                 
                 if (cart) {
-                    await cart.populate('cartItems.product', 'name price imageUrl').execPopulate();
+                    await cart.populate('cartItems.product', 'name subcategory price imageUrl').execPopulate();
                 }
                 res.render('cart', { cart });
 
@@ -48,13 +56,14 @@ module.exports.cart_post = async (req, res) => {
     const productId = req.body.productId;
     const quantity = parseInt(req.body.quantity);
     const client = res.locals.client;
-
+    console.log(productId);
     if (client) {                           // logged client
         try {
             const cart = await Cart.findById(client.shoppingCartId);
+            
             let isProductInCart = false;
 
-            cart.cartItems.forEach(item => {
+            for (const item of cart.cartItems) {
                 if (item.product.equals(productId)) {
                     isProductInCart = true;
                     item.quantity += quantity;
@@ -63,14 +72,19 @@ module.exports.cart_post = async (req, res) => {
                         item.quantity = 1;
                     }
 
+                    cart.subTotal += await calcSubtotal(productId, quantity);
+
                     cart.save();     
-                }
-            });
+                } 
+            };
     
             if (isProductInCart) {
-                res.json({ cart });
+                res.json({ cart, status: true });
             } else if (!isProductInCart) {
                 cart.cartItems.push({ product: productId, quantity});
+
+                cart.subTotal += await calcSubtotal(productId, quantity);
+
                 cart.save();     
 
                 res.json({ cart });
@@ -87,7 +101,7 @@ module.exports.cart_post = async (req, res) => {
 
                 let isProductInCart = false;
 
-                tempCart.cartItems.forEach(item => {
+                for (const item of tempCart.cartItems) {
                     if (item.product.equals(productId)) {
                         isProductInCart = true;
                         item.quantity += quantity;
@@ -95,15 +109,20 @@ module.exports.cart_post = async (req, res) => {
                         if ( item.quantity < 1 ) {
                             item.quantity = 1;
                         }
+                        tempCart.subTotal += await calcSubtotal(productId, quantity);
+
                         tempCart.save();     
                     }
-                });
+                }
 
                 if (!isProductInCart) {
                     if ( quantity < 1 ) {
                         quantity = 1;
                     }
                     tempCart.cartItems.push({ product: productId, quantity});
+                    
+                    tempCart.subTotal += await calcSubtotal(productId, quantity);
+
                     tempCart.save();     
                 }   
 
@@ -117,6 +136,9 @@ module.exports.cart_post = async (req, res) => {
                 const tempCart = await TempCart.create({});
                 
                 tempCart.cartItems.push({ product: productId, quantity});
+                
+                tempCart.subTotal += await calcSubtotal(productId, quantity);
+
                 tempCart.save();     
 
                 res.cookie('cartToken', tempCart._id, { 
@@ -130,12 +152,12 @@ module.exports.cart_post = async (req, res) => {
             res.status(400).send({ error });
         }
     }
-}
+};
 
 
 
 module.exports.cart_delete = async (req, res) => {
-    const productId = req.body.productId;
+    const itemId = req.body.itemId;
     const client = res.locals.client;
     const tempCart = req.cookies.cartToken;
 
@@ -143,14 +165,35 @@ module.exports.cart_delete = async (req, res) => {
         if (client) {
             const cart = await Cart.findById(client.shoppingCartId);
 
-            cart.cartItems.pull({ _id: productId });
+            const item = cart.cartItems.find(( item ) => {
+                return item._id.equals(itemId);
+            });
+
+            const quantity = item.quantity;
+            const productId = item.product;
+
+            cart.subTotal -= await calcSubtotal(productId, quantity);
+
+            cart.cartItems.pull({ _id: itemId });
+
+            console.log(cart.cartItems);
             cart.save();
 
             res.send({ status: true });
         } else if (tempCart) {
             const cart = await TempCart.findById(tempCart);
-            
-            cart.cartItems.pull({ _id: productId });
+            const item = cart.cartItems.find(( item ) => {
+                return item._id.equals(itemId);
+            });
+
+            const quantity = item.quantity;
+            const itemId = item.product;
+
+            cart.subTotal -= await calcSubtotal(itemId, quantity);
+
+            cart.cartItems.pull({ _id: itemId });
+
+            console.log(cart.cartItems);
             cart.save();
             
             res.send({ status: true }); 

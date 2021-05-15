@@ -17,7 +17,8 @@ const CartSchema = new mongoose.Schema({
     cartItems: [ItemSchema],
     subTotal: {
         type: Number,
-        default: 0
+        default: 0,
+        min: 0
     }
 });
 
@@ -25,7 +26,8 @@ const TempCartSchema = new mongoose.Schema({
     cartItems: [ItemSchema],
     subTotal: {
         type: Number,
-        default: 0
+        default: 0,
+        min: 0
     },
     updatedAt: { type: Date, default: Date.now, unique: true,index: { expires: 2 * 24 * 60 * 60 } }
 },
@@ -38,6 +40,13 @@ TempCartSchema.pre('save', (next) => {
     this.updatedAt = Date.now();
     next();
 })
+
+// TempCartSchema.pre('save', (next) => {
+//     const subtotal = 0;
+//     this.cartItems.forEach(item => {
+//         subtotal += item.product.price
+//     });
+// })
 
 module.exports.Cart = mongoose.model('Cart', CartSchema);
 module.exports.TempCart = mongoose.model('TempCart', TempCartSchema);
