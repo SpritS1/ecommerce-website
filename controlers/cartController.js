@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const { Cart, TempCart } = require('../models/Cart');
 const Product = require('../models/Product');
 const jwt = require('jsonwebtoken');
+const cartOperations = require('../middleware/cartOperations');
 
 
 const calcSubtotal = async (productId, quantity) => {
@@ -57,34 +58,23 @@ module.exports.cart_post = async (req, res) => {
     const quantity = parseInt(req.body.quantity);
     const client = res.locals.client;
     console.log(productId);
+    
     if (client) {                           // logged client
         try {
             const cart = await Cart.findById(client.shoppingCartId);
-            
-            let isProductInCart = false;
-
-            for (const item of cart.cartItems) {
-                if (item.product.equals(productId)) {
-                    isProductInCart = true;
-                    item.quantity += quantity;
-    
-                    if ( item.quantity < 1 ) {
-                        item.quantity = 1;
-                    }
-
-                    cart.subTotal += await calcSubtotal(productId, quantity);
-
-                    cart.save();     
-                } 
-            };
+        
+            const isProductInCart = cartOperations.isProductInCart(cart, productId, quantity);
+            console.log(isProductInCart);
     
             if (isProductInCart) {
+                cart.subTotal = await cartOperations.calcSubtotal(cart);
+                cart.save();
+                
                 res.json({ cart, status: true });
             } else if (!isProductInCart) {
                 cart.cartItems.push({ product: productId, quantity});
 
-                cart.subTotal += await calcSubtotal(productId, quantity);
-
+                cart.subTotal = await cartOperations.calcSubtotal(cart);
                 cart.save();     
 
                 res.json({ cart });
