@@ -87,55 +87,48 @@ module.exports.cart_post = async (req, res) => {
         try {
             if (req.cookies.cartToken) {
                 const cartId = req.cookies.cartToken;
-                const tempCart = await TempCart.findById(cartId);
+                const cart = await TempCart.findById(cartId);
 
-                let isProductInCart = false;
+                const isProductInCart = cartOperations.isProductInCart(cart, productId, quantity);
 
-                for (const item of tempCart.cartItems) {
-                    if (item.product.equals(productId)) {
-                        isProductInCart = true;
-                        item.quantity += quantity;
-        
-                        if ( item.quantity < 1 ) {
-                            item.quantity = 1;
-                        }
-                        tempCart.subTotal += await calcSubtotal(productId, quantity);
-
-                        tempCart.save();     
-                    }
-                }
-
-                if (!isProductInCart) {
-                    if ( quantity < 1 ) {
-                        quantity = 1;
-                    }
-                    tempCart.cartItems.push({ product: productId, quantity});
+                if (isProductInCart) {
+                    cart.subTotal = await cartOperations.calcSubtotal(cart);
+                    cart.save();
                     
-                    tempCart.subTotal += await calcSubtotal(productId, quantity);
-
-                    tempCart.save();     
+                    res.cookie('cartToken', cart._id, { 
+                        maxAge: 2 * 24 * 60 * 60 * 1000 ,
+                        httpOnly: true 
+                    });     
+                    
+                    res.json({ cart });
+                } else if (!isProductInCart) {
+                    cart.cartItems.push({ product: productId, quantity});
+    
+                    cart.subTotal = await cartOperations.calcSubtotal(cart);
+                    cart.save();     
+    
+                    res.cookie('cartToken', cart._id, { 
+                        maxAge: 2 * 24 * 60 * 60 * 1000 ,
+                        httpOnly: true 
+                    });     
+                    
+                    res.json({ cart });
                 }   
-
-                res.cookie('cartToken', tempCart._id, { 
-                    maxAge: 2 * 24 * 60 * 60 * 1000 ,
-                    httpOnly: true 
-                });     
-                res.json({tempCart});
-
             } else if (!req.cookies.cartToken) {
-                const tempCart = await TempCart.create({});
+                const cart = await TempCart.create({});
                 
-                tempCart.cartItems.push({ product: productId, quantity});
+                cart.cartItems.push({ product: productId, quantity});
                 
-                tempCart.subTotal += await calcSubtotal(productId, quantity);
+                cart.subTotal = await cartOperations.calcSubtotal(cart);
 
-                tempCart.save();     
+                cart.save();     
 
-                res.cookie('cartToken', tempCart._id, { 
+                res.cookie('cartToken', cart._id, { 
                     maxAge: 2 * 24 * 60 * 60 * 1000,
                     httpOnly: true 
                 });     
-                res.json({ tempCart });
+
+                res.json({ cart });
             }
         } catch (error) {
             console.log(error);
@@ -155,31 +148,34 @@ module.exports.cart_delete = async (req, res) => {
         if (client) {
             const cart = await Cart.findById(client.shoppingCartId);
 
-            const item = cart.cartItems.find(( item ) => {
+            const item = cart.cartItems.find(( item ) => {  
                 return item._id.equals(itemId);
             });
 
             const quantity = item.quantity;
             const productId = item.product;
 
-            cart.subTotal -= await calcSubtotal(productId, quantity);
-
             cart.cartItems.pull({ _id: itemId });
+
+            cart.subTotal = await cartOperations.calcSubtotal(cart);
 
             console.log(cart.cartItems);
             cart.save();
 
-            res.send({ status: true });
+            res.send({ status: true, cart });
         } else if (tempCart) {
             const cart = await TempCart.findById(tempCart);
-            const item = cart.cartItems.find(( item ) => {
+
+            const item = await cart.cartItems.find(( item ) => {
                 return item._id.equals(itemId);
             });
 
-            const quantity = item.quantity;
-            const itemId = item.product;
+            console.log(item);
 
-            cart.subTotal -= await calcSubtotal(itemId, quantity);
+            const quantity = item.quantity;
+            const productId = item.product;
+
+            cart.subTotal = await cartOperations.calcSubtotal(cart);
 
             cart.cartItems.pull({ _id: itemId });
 
