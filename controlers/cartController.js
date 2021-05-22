@@ -4,15 +4,6 @@ const Product = require('../models/Product');
 const jwt = require('jsonwebtoken');
 const cartOperations = require('../middleware/cartOperations');
 
-
-const calcSubtotal = async (productId, quantity) => {
-    const product = await Product.findById(productId);
-    const price = product.price.value * quantity;
-
-    return price;
-}
-
-
 module.exports.cart_get = async (req, res) => {
     const client = res.locals.client;
 
@@ -70,7 +61,7 @@ module.exports.cart_post = async (req, res) => {
                 cart.subTotal = await cartOperations.calcSubtotal(cart);
                 cart.save();
                 
-                res.json({ cart, status: true });
+                res.json({ cart });
             } else if (!isProductInCart) {
                 cart.cartItems.push({ product: productId, quantity});
 
@@ -85,6 +76,8 @@ module.exports.cart_post = async (req, res) => {
         }
     } else if (!client) {                   // unlogged client
         try {
+            const cartTokenMaxAge = 30 * 24 * 60 * 60 * 1000;
+            
             if (req.cookies.cartToken) {
                 const cartId = req.cookies.cartToken;
                 const cart = await TempCart.findById(cartId);
@@ -96,7 +89,7 @@ module.exports.cart_post = async (req, res) => {
                     cart.save();
                     
                     res.cookie('cartToken', cart._id, { 
-                        maxAge: 2 * 24 * 60 * 60 * 1000 ,
+                        maxAge: cartTokenMaxAge,
                         httpOnly: true 
                     });     
                     
@@ -108,7 +101,7 @@ module.exports.cart_post = async (req, res) => {
                     cart.save();     
     
                     res.cookie('cartToken', cart._id, { 
-                        maxAge: 2 * 24 * 60 * 60 * 1000 ,
+                        maxAge: cartTokenMaxAge,
                         httpOnly: true 
                     });     
                     
@@ -124,7 +117,7 @@ module.exports.cart_post = async (req, res) => {
                 cart.save();     
 
                 res.cookie('cartToken', cart._id, { 
-                    maxAge: 2 * 24 * 60 * 60 * 1000,
+                    maxAge: cartTokenMaxAge,
                     httpOnly: true 
                 });     
 
@@ -159,7 +152,6 @@ module.exports.cart_delete = async (req, res) => {
 
             cart.subTotal = await cartOperations.calcSubtotal(cart);
 
-            console.log(cart.cartItems);
             cart.save();
 
             res.send({ status: true, cart });
@@ -179,7 +171,6 @@ module.exports.cart_delete = async (req, res) => {
 
             cart.cartItems.pull({ _id: itemId });
 
-            console.log(cart.cartItems);
             cart.save();
             
             res.send({ status: true }); 

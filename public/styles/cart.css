@@ -68,7 +68,7 @@ section.cart {
             }
 
                 .cart-item .change-amount i {
-                    color: var(--background-color-dark);
+                    color: var(--font-color);
                     padding: .5rem;
                     cursor: pointer;
                 }
@@ -79,7 +79,7 @@ section.cart {
 
 
             .cart-item i.remove-item {
-                color: rgb(200, 0, 0);
+                color: #d72323;
             }
 
     section.cart .order-summary {
@@ -93,6 +93,10 @@ section.cart {
             align-items: center;
             justify-content: space-between;
             margin: .25rem 0;
+        }
+
+        .subtotal-container i, .shipping-container i, .total-container i {
+            padding: 0.5rem;
         }
 
         .checkout {

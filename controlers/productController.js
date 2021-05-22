@@ -2,10 +2,20 @@ const mongoose = require('mongoose');
 const Product = require('../models/Product');
 
 module.exports.product_get = async (req, res) => {
+    const productId = req.query.productId;
+    console.log(productId);
+
     try {
-        await Product.find({}, (error, products) => {
-            res.render('products', { products });
-        })
+        if (!productId) {
+            await Product.find({}, (error, products) => {
+                res.render('products', { products });
+            })            
+        } else if (productId) {
+            const product = await Product.findById(productId);
+
+            res.render('product_page', { product });
+        }
+
     } catch (error) {
         console.log(error);
         res.status(400).send({ error });

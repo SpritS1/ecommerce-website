@@ -22,33 +22,30 @@ html
                   p.product-name #{product.subcategory.toUpperCase()}
                   p.price #{product.price.value.toFixed(2)} #{product.price.currency}
                   .product-buttons
-                    button.btn-green.buy-now Buy now
+                    //- button.btn-green.buy-now Buy now
                     button.btn-dark.add-to-cart(data-product-id=`${product._id}`) Add to cart
-          //- .product-card
-          //-   img(src='images/floor-stand-m.jpeg')
-          //-   p.product-name 
-          //-     b WOODIE
-          //-   p.product-name WOODEN BOWL STAND
-          //-   p.price 89,99 PLN
-          //-   .product-buttons
-          //-     button.btn-green Buy now
-          //-     button.btn-dark Add to cart
-          //- .product-card
-          //-   img(src='images/wall-stand-m.jpeg')
-          //-   p.product-name 
-          //-     b MARVIN
-          //-   p.product-name WALL MOUNTED FEEDER
-          //-   p.price 69,99 PLN
-          //-   .product-buttons
-          //-     button.btn-green Buy now
-          //-     button.btn-dark Add to cart
-          //- .product-card
-          //-   img(src='images/wall-stand-m.jpeg')
-          //-   p.product-name 
-          //-     b MARVIN
-          //-   p.product-name WALL MOUNTED FEEDER
-          //-   p.price 69,99 PLN
-          //-   .product-buttons
-          //-     button.btn-green Buy now
-          //-     button.btn-dark Add to cart
+                      i.fa.fa-shopping-cart.fa-lg(style="margin-left: 0.5rem;")
+                    //- button.fav 
+                    //-   i.far.fa-star.fa-2x 
+          hr
+
+          .advantages
+            .advantage
+              i.fas.fa-medal.fa-7x 
+              p Highest quality
+            .advantage
+              i.fas.fa-clock.fa-7x
+              p Quick delivery
+            .advantage
+              i.fas.fa-undo.fa-7x
+              p 30 days to return
+            .advantage
+              i.fas.fa-box.fa-7x
+              p Free delivery
+              b above $200
+            .advantage
+              i.fas.fa-leaf.fa-7x
+              p 100% Eco
+              
+            
     include partials/footer.pug

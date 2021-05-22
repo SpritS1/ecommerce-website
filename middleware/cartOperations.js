@@ -6,10 +6,7 @@ module.exports.calcSubtotal = async (cart) => {
 
     let cartSubtotal = 0;
 
-    console.log(`Function calc items ${cart.cartItems}`);
     for (const item of cart.cartItems) {
-        console.log(`Item price ${item.product.price.value}`)
-        console.log(`Item quantity ${item.quantity}`)
         cartSubtotal += item.product.price.value * item.quantity;
     };
 

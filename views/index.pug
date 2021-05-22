@@ -5,21 +5,23 @@ html
   body
     include partials/navbar.pug
     .content-wrapper
+      //- section.carousel 
+      //-   img(src='/images/dog_and_cat_1920x1280.jpeg')
       .main
         h1  Our products 
         section.product-cards
           .product-card
             img(src='images/wall-stand-m.jpeg')
             h4 Wall bowl stands
-            button.btn-dark-outline  See more 
+            button.btn-dark-outline(onclick='window.location.href="/products"')  See more 
           .product-card
             img(src='images/floor-stand-m.jpeg')
             h4 Floor bowl stands
-            button.btn-dark-outline  See more 
+            button.btn-dark-outline(onclick='window.location.href="/products"')  See more 
           .product-card
             img(src='images/key_holder.jpg')
             h4 Other furnitures
-            button.btn-dark-outline  See more 
+            button.btn-dark-outline(onclick='window.location.href="/products"')  See more 
         section#about-us.about-us
           h1  About us 
           p
@@ -95,5 +97,6 @@ html
               span  Jackson Walter 
               span  12 days ago
         section.location-map
-          h1 Where to find us?          
+          h1 Where to find us?  
+        section.contact        
     include partials/footer.pug

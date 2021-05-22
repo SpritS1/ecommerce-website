@@ -3,12 +3,14 @@
 
 :root {
     --background-color: #eee;
-    --background-color-dark:#333;
-    --font-color: #333;
+    --background-color-dark:#5d5d5a;
+    --font-color: #200000;
     --font-color-light: white;
     --icons-color-light: white;
     --border-radius: 15px;
     --box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 10px 0 rgba(0,0,0,0.19);
+    --color-yellow: #ffa45c;
+    --color-brown: #96714F;
 }
 
 *{
@@ -16,6 +18,7 @@
     margin: 0;
     padding: 0;
     font-size: 16px;
+    letter-spacing: 1.25px;
     color: var(--font-color);
 }
 
@@ -127,6 +130,18 @@ nav {
         margin: 2rem 0;
     }
 
+    hr {
+        margin: .5rem 0;
+        background-color: var(--color-yellow);
+    }
+
+/* Carousel */
+
+section.carousel img {
+    /* height: 200px; */
+    width: 100%;
+}
+
 /* Product card */
     .product-card {
         display: flex;
@@ -138,7 +153,7 @@ nav {
 
     .product-card img {
         max-width: 100%;
-        height: auto;
+        height: 100%;
         /* flex: 0 0 273px; */
     }
 
@@ -150,7 +165,7 @@ nav {
 
     .btn-dark {
         padding: 10px;
-        background-color: rgb(54, 54, 54);
+        background-color: #5d5d5a;
         color: var(--font-color-light);
         border: none;
         border-radius: 5px;
@@ -159,15 +174,24 @@ nav {
 
     .btn-dark-outline {
         padding: 10px;
-        border: black solid .5px;
+        border: #5d5d5a solid .5px;
         border-radius: 5px;
         cursor: pointer;
     }
 
     .btn-dark-outline:hover {
-        background-color: rgb(54, 54, 54);
+        background-color: #5d5d5a;
         color: var(--font-color-light);
         border-color: white;
+    }
+
+    .btn-brown {
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        background-color:var(--color-yellow);
+        color: var(--font-color-light);
     }
 
     .btn-submit {
@@ -179,13 +203,13 @@ nav {
         color: var(--font-color-light);
     }
 
-    .btn-green {
+    .btn-orange {
         padding: 10px;
         border: none;
         border-radius: 5px;
         cursor: pointer;
-        background-color: rgb(42, 129, 42);
-        color: var(--font-color-light);
+        background-color: #ffa45c;
+        color: var(--font-color);
     }
 
 /* Headers */
@@ -239,7 +263,7 @@ nav {
         footer {
             width: 100%;
             min-height: 100px;
-            background-color: #333;
+            background-color: var(--background-color-dark);
         }
 
 @media screen and (min-width: 784px) {
@@ -286,6 +310,14 @@ nav {
         nav .login li {
             flex: 0 0 auto;
         }
+
+    section.carousel {
+
+    }
+
+    section.carousel img {
+        width: 100%;
+    }
 
     /* Products */
 

@@ -3,17 +3,23 @@ const loginForm = document.querySelector('form.login');
 const submit = document.querySelector('.btn-submit');
 const warnings = document.querySelectorAll('span.warning');
 
+
 if (loginForm) {
     submit.addEventListener('click', async (e) => {
         e.preventDefault();
 
         const email = loginForm.mail.value;
         const password = loginForm.password.value;
+        let rememberMe = false;
+    
+        if (document.querySelector('#remember-me').checked) {
+            rememberMe = true;
+        }
 
         try {
             const res = await fetch('/account/login', {
                 method: 'POST',
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ email, password, rememberMe }),
                 headers: { 'Content-Type': 'application/json'}
             });
 

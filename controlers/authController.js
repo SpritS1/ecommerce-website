@@ -3,7 +3,7 @@ const { Cart, TempCart } = require('../models/Cart');
 const jwt = require('jsonwebtoken');
 
 // Create JWT tokens
-const tokenMaxAge = 60 * 60;
+let tokenMaxAge =  7 * 24 * 60 * 60 * 1000;
 
 const createToken = (id) => {
     return jwt.sign({ id }, 'pantofel' , { expiresIn: tokenMaxAge });
@@ -59,10 +59,6 @@ const handleError = (error) => {
     }
 };
 
-const tempCartToCart = () => {
-    
-}
-
 module.exports.register_get = (req, res) => {
     res.render('account/register.pug');
 };
@@ -94,7 +90,7 @@ module.exports.register_post = async (req, res) => {
 
         const token = createToken(client._id);
         
-        res.cookie('authToken', token, { maxAge: tokenMaxAge * 7000, httpOnly: true });
+        res.cookie('authToken', token, { maxAge: tokenMaxAge * 1000, httpOnly: true });
         res.status(201).json({ client: client._id });
     } catch (error){
         const errors = handleError(error);
@@ -109,7 +105,7 @@ module.exports.login_get = (req, res) => {
 }
 
 module.exports.login_post = async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, rememberMe } = req.body;
 
     try {
         const client = await Client.login(email, password);
@@ -141,9 +137,16 @@ module.exports.login_post = async (req, res) => {
             await TempCart.findByIdAndDelete({ _id: tempCart._id });
         }
         
-        res.cookie('authToken', token, { maxAge: tokenMaxAge * 1000, httpOnly: true });
+        if(rememberMe) {
+            res.cookie('authToken', token, { maxAge: tokenMaxAge * 1000, httpOnly: true }); 
+        } else if (!rememberMe) {
+            res.cookie('authToken', token, { httpOnly: true }); 
+        }
+
+
         res.status(200).json({ client: client.email});
     } catch (error) {
+        console.log(error);
         const errors = handleError(error);
         res.status(400).json({errors});
     }

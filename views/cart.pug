@@ -29,23 +29,30 @@ html
 
                                 .item-bottom
                                     .change-amount
-                                        i.far.fa-arrow-alt-circle-left.fa-lg.quality-down(data-product-id=`${item.product._id}`)
+                                        i.far.fa-arrow-alt-circle-left.fa-lg.quantity-down(data-product-id=`${item.product._id}`)
                                         b.item-quantity #{item.quantity}    
-                                        i.far.fa-arrow-alt-circle-right.fa-lg.quality-up(data-product-id=`${item.product._id}`)
+                                        i.far.fa-arrow-alt-circle-right.fa-lg.quantity-up(data-product-id=`${item.product._id}`)
                                     p.price Price: 
                                         b #{`${item.product.price.value.toFixed(2)} ${item.product.price.currency}`}
                     .order-summary
                         .subtotal 
-                            p.subtotal Subtotal: 
+                            .subtotal-container 
+                                i.fas.fa-money-bill.fa-lg(style='color: black;') 
+                                span Subtotal:
                             b #{cart.subTotal.toFixed(2)} PLN
                         .shipping
-                            p.shipping Shipping: 
+                            .shipping-container 
+                                i.fas.fa-truck.fa-lg(style='color: black;') 
+                                span Shipping:
                             b 20 PLN
                         hr
                         .total
-                            p.total Total: 
+                            .total-container
+                                i.fas.fa-calculator.fa-lg(style='color: black;') 
+                                span Total: 
                             b #{(cart.subTotal + 20).toFixed(2)} PLN
-                    button.btn-green.checkout Checkout
+                    button.btn-orange.checkout 
+                        b Checkout
             else if !cart 
                 h1 Failed to load cart
 

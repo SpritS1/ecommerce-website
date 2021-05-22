@@ -1,0 +1,53 @@
+doctype html
+html
+  include partials/head.pug
+  link(rel='stylesheet' type='text/css' href='/styles/product_page.css')
+
+  body
+    include partials/navbar.pug
+
+    .main 
+      .product 
+        h3.product-name #{product.name}
+        p.category #{product.category}
+        .rating 
+          i.fas.fa-star.fa-lg
+          i.fas.fa-star.fa-lg
+          i.fas.fa-star.fa-lg
+          i.fas.fa-star.fa-lg
+          i.fas.fa-star.fa-lg
+          span (36)
+        hr
+        .img-container
+          .img-box
+            img(src=`${product.imageUrl[0]}` alt='Product image')
+          //- .images  
+          //-   img(src=`${product.imageUrl[1]}` alt='Small product image')
+        .middle
+          .left
+            p.quantity Aviability:
+            p.shipping Shipping in: 
+            p.shipping Shipping cost:
+
+          .right 
+            if product.quantity > 10
+              b.quantity Huge
+            else if product.quantity <= 10 && product.quantity > 5
+              b.quantity Medium
+            else if product.quantity <= 5
+              b.quantity Last items          
+            b  24 hours 
+            b 10 PLN 
+        p.price Price: #{product.price.value.toFixed(2)} PLN
+
+        hr 
+
+        .bottom 
+          .wrapper 
+            input.quantity(type='number' value=1 min="1") 
+            span pc.
+          button.btn-dark Add to cart
+            i.fa.fa-shopping-cart.fa-lg(style="margin-left: 0.5rem;")
+          
+            
+    include partials/footer.pug
