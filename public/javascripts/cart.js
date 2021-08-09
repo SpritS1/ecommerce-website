@@ -17,7 +17,8 @@ removeItemButtons.forEach(button => {
             const resData = await res.json();
 
             if (resData.status) {
-                location.assign('/cart');    
+                // location.assign('/cart');    
+                location.reload();
             } else if (!resData.status) {
                 if (resData.message) {
                     console.log(resData.message);
@@ -29,7 +30,20 @@ removeItemButtons.forEach(button => {
         } catch (err) {
             console.log(err);
         }
-    })
+    });
+});
+
+const productCards = document.querySelectorAll('.cart-item img');
+
+productCards.forEach(productCard => {
+    productCard.addEventListener('click', async (e) => {
+        e.preventDefault();
+
+        const productId = productCard.dataset.productId;
+        console.log(productId);
+
+        location.assign(`/products/?productId=${productId}`);
+    });
 });
 
 const quantityUpButtons = document.querySelectorAll('i.quantity-up');

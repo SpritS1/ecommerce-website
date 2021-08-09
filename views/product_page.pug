@@ -8,46 +8,52 @@ html
 
     .main 
       .product 
-        h3.product-name #{product.name}
-        p.category #{product.category}
-        .rating 
-          i.fas.fa-star.fa-lg
-          i.fas.fa-star.fa-lg
-          i.fas.fa-star.fa-lg
-          i.fas.fa-star.fa-lg
-          i.fas.fa-star.fa-lg
-          span (36)
-        hr
-        .img-container
-          .img-box
-            img(src=`${product.imageUrl[0]}` alt='Product image')
-          //- .images  
-          //-   img(src=`${product.imageUrl[1]}` alt='Small product image')
-        .middle
-          .left
-            p.quantity Aviability:
-            p.shipping Shipping in: 
-            p.shipping Shipping cost:
+        .top
+          h3.product-name #{product.name}
+          p.category #{product.category}
+          .rating 
+            i.fas.fa-star.fa-lg
+            i.fas.fa-star.fa-lg
+            i.fas.fa-star.fa-lg
+            i.fas.fa-star.fa-lg
+            i.fas.fa-star.fa-lg
+            span (36)
+          hr
+        .product-body
+          .img-container
+            .img-box
+              img(src=`${product.imageUrl[0]}` alt='Product image')
+            //- .images  
+            //-   img(src=`${product.imageUrl[1]}` alt='Small product image')
+          .product-info
+            .middle
+              .left
+                p.quantity Supply:
+                p.shipping Shipping in: 
+                p.shipping Shipping cost:
 
-          .right 
-            if product.quantity > 10
-              b.quantity Huge
-            else if product.quantity <= 10 && product.quantity > 5
-              b.quantity Medium
-            else if product.quantity <= 5
-              b.quantity Last items          
-            b  24 hours 
-            b 10 PLN 
-        p.price Price: #{product.price.value.toFixed(2)} PLN
+              .right 
+                if product.quantity > 10
+                  b.quantity Large
+                else if product.quantity <= 10 && product.quantity > 5
+                  b.quantity Medium
+                else if product.quantity <= 5
+                  b.quantity Last items          
+                b  24 hours 
+                b 10 PLN 
+            p.price Price: #{product.price.value.toFixed(2)} PLN
 
-        hr 
+            hr 
 
-        .bottom 
-          .wrapper 
-            input.quantity(type='number' value=1 min="1") 
-            span pc.
-          button.btn-dark Add to cart
-            i.fa.fa-shopping-cart.fa-lg(style="margin-left: 0.5rem;")
-          
+            .bottom 
+              .wrapper 
+                input.quantity(type='number' value=1 min="1") 
+                span pc.
+              button.btn-dark Add to cart
+                i.fa.fa-shopping-cart.fa-lg
             
+            .description 
+              h3 Description
+              p Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
+                   
     include partials/footer.pug

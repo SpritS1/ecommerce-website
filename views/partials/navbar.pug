@@ -1,6 +1,9 @@
 nav
       .top-menu
-        a.brand(href='/')  Pet&amp;I 
+        //- a.brand(href='/')  Pet&amp;I 
+        a.brand(href='/') 
+          img(src='/images/logo/logo_transparent.png' alt='logo')
+
         ul
           if client
             //- p(style='color: white;') #{client.firstname.charAt(0).toUpperCase() + client.firstname.slice(1)}
@@ -10,6 +13,10 @@ nav
           li
             a(href='/cart')
               i.fa.fa-shopping-cart.fa-2x.cart(style='color: white;')
+                if cartItemsQuantity
+                  .cart-quantity #{cartItemsQuantity}
+                else 
+                  .cart-quantity 0
           li.menu-bars
             i.fas.fa-bars.fa-2x.menu-bars
       .dropdown-menu(data-display='none')

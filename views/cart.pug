@@ -21,7 +21,7 @@ html
                         each item in cart.cartItems
                             .cart-item
                                 .item-top
-                                    img(src=`${item.product.imageUrl[0]}` alt='product image')
+                                    img(src=`${item.product.imageUrl[0]}` alt='product image' data-product-id=`${item.product._id}`)
                                     .item-info 
                                         p.title #{item.product.name}
                                         p.category #{item.product.subcategory.charAt(0).toUpperCase() + item.product.subcategory.slice(1)}

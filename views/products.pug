@@ -16,10 +16,9 @@ html
           section.product-cards
               each product in products
                 .product-card
-                  img(src=`${product.imageUrl[0]}`)
-                  p.product-name 
-                    b #{product.name}
-                  p.product-name #{product.subcategory.toUpperCase()}
+                  img(src=`${product.imageUrl[0]}` alt='Product image' data-product-id=`${product._id}`)
+                  p.product-name #{product.name}
+                  p.product-category #{product.subcategory.toUpperCase()}
                   p.price #{product.price.value.toFixed(2)} #{product.price.currency}
                   .product-buttons
                     //- button.btn-green.buy-now Buy now

@@ -4,6 +4,8 @@ const pug = require('pug');
 const cookieParser = require('cookie-parser');
 const {checkClient, requireAuth} = require('./middleware/requireAuth');
 
+const checkCartQuantity = require('./middleware/checkCartQuantity')
+
 const app = express();
 
 // view engine
@@ -26,11 +28,11 @@ const productsRoutes = require('./routes/productsRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 
 // routes
-app.get('*', checkClient);
+app.get('*', checkClient, checkCartQuantity);
 
 app.get('/', (req, res) => {
     res.render('index');
-})
+});
 
 app.use(productsRoutes);
 

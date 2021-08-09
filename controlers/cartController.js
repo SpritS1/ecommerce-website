@@ -11,7 +11,7 @@ module.exports.cart_get = async (req, res) => {
         if (client) {
             const cart = await Cart.findOne(client.shoppingCartId);
 
-            await cart.populate('cartItems.product', 'name subcategory price imageUrl').execPopulate(); // Zostawic
+            await cart.populate('cartItems.product', 'product name subcategory price imageUrl').execPopulate(); // Zostawic
             res.render('cart', { cart });        
 
         } else if (!client) {
@@ -20,7 +20,7 @@ module.exports.cart_get = async (req, res) => {
                 const cart = await TempCart.findById(cartId);
                 
                 if (cart) {
-                    await cart.populate('cartItems.product', 'name subcategory price imageUrl').execPopulate();
+                    await cart.populate('cartItems.product', 'product name subcategory price imageUrl').execPopulate();
                 }
                 res.render('cart', { cart });
 
@@ -48,9 +48,10 @@ module.exports.cart_post = async (req, res) => {
     const productId = req.body.productId;
     const quantity = parseInt(req.body.quantity);
     const client = res.locals.client;
-    console.log(productId);
     
-    if (client) {                           // logged client
+    // logged client
+
+    if (client) {                         
         try {
             const cart = await Cart.findById(client.shoppingCartId);
         
@@ -61,20 +62,21 @@ module.exports.cart_post = async (req, res) => {
                 cart.subTotal = await cartOperations.calcSubtotal(cart);
                 cart.save();
                 
-                res.json({ cart });
+                res.json({ cart, isProductInCart });
             } else if (!isProductInCart) {
                 cart.cartItems.push({ product: productId, quantity});
 
                 cart.subTotal = await cartOperations.calcSubtotal(cart);
                 cart.save();     
 
-                res.json({ cart });
+                res.json({ cart, isProductInCart });
             }   
         } catch (error) {   
             console.log(error);
             res.status(400).send({ error });
         }
-    } else if (!client) {                   // unlogged client
+    // unlogged client
+    } else if (!client) {
         try {
             const cartTokenMaxAge = 30 * 24 * 60 * 60 * 1000;
             
@@ -93,7 +95,7 @@ module.exports.cart_post = async (req, res) => {
                         httpOnly: true 
                     });     
                     
-                    res.json({ cart });
+                    res.json({ cart, isProductInCart });
                 } else if (!isProductInCart) {
                     cart.cartItems.push({ product: productId, quantity});
     
@@ -105,7 +107,7 @@ module.exports.cart_post = async (req, res) => {
                         httpOnly: true 
                     });     
                     
-                    res.json({ cart });
+                    res.json({ cart, isProductInCart });
                 }   
             } else if (!req.cookies.cartToken) {
                 const cart = await TempCart.create({});
