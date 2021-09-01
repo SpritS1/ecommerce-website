@@ -11,6 +11,10 @@ section.cart {
         margin-top: 2rem;
     }
 
+    section.cart p {
+        text-align: center;
+    }
+
     .cart-items {
         background-color: white;
         box-shadow: var(--box-shadow);
