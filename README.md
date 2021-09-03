@@ -6,7 +6,8 @@ Online shop made for company selling pet furniture. I created this project to le
 ## Technologies used
 - NodeJS
 - Express
-- mongoDB
+- MongoDB
+- Pug
 
 ## Images
 
